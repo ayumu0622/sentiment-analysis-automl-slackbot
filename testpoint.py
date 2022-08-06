@@ -1,4 +1,3 @@
-from get_everything import calc_mean
 main_data = {'Ayumu': [['motivation', ':wave:', ':wave:', ':wave:', ':wave:', 'hello', 'I am Ayumu', 'hello-socket-mode', 
 '/ hello-socket-mode', 'hello-socket-mode', '/ hello-socket-mode', '/ hello-socket-mode', 'hello', 'motivation', 'ji', 'hello', 'okay sure', 'ok sure', 
 'that is a good idea', 'this is so boring job', 'this task is not difficult to do I guess', "I don't like this job."], [0.699999988079071, 0.20000000298023224, 
@@ -10,4 +9,9 @@ main_data = {'Ayumu': [['motivation', ':wave:', ':wave:', ':wave:', ':wave:', 'h
  'Kate': [[':star-struck:', ':smile:', 'Me tooo', 'I am Kate', 'you are fired', 'I hope I can finish this by tomorrow'], [0.0, 0.6000000238418579,
   0.699999988079071, 0.10000000149011612, -0.699999988079071, 0.20000000298023224]]}
 
-print(calc_mean(main_data))
+strings = "("
+for name in list(main_data.keys()):
+  strings = strings + "|" + name
+strings += ")"
+
+print(strings)

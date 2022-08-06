@@ -1,4 +1,5 @@
 def get_max(dict):
+    
     maxx = 0
     indexx = 0
     sentence = "a"
@@ -12,4 +13,4 @@ def get_max(dict):
             sentence = list[0][indexx]
             who = name
             
-    return f"{who} said that {sentence} and score was {maxx}"
+    return f"{who} said that [{sentence}] Score is {maxx}"
