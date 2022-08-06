@@ -11,15 +11,20 @@ SLACK_BOT_TOKEN = os.environ["OAUTH"]
 SLACK_APP_TOKEN = os.environ["socketoken"]
 
 app = App(token = SLACK_BOT_TOKEN)
+emp = ["Bob","Emma","Kate","Ayumu"]
+emp.append("Everyone")
 
-@app.event("app_mention")
-def mention_handler(body, context, payload, options, say, event):
-  say("Hello World!")
+@app.message("Hello")
+def say_hello(message, say):
+  say("Hello PM")
 
-@app.event("message")
-def message_handler(body, context, payload, options, say, event):
-  print("hey")
-  pass
+@app.message("I want to know mode")
+def say_hello(message, say):
+  say("who do you wanna see?")
+  say("choose from below option and put name")
+  for num,i in enumerate(emp):
+    text = f"{num+1}.{i}"
+    say(text)
 
 
 if __name__ == "__main__":
