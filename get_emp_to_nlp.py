@@ -1,21 +1,23 @@
-def get_users():
-    import os
-    import logging
-    from dotenv import load_dotenv
-    import slack
-    import aiohttp
-    from slack_sdk.errors import SlackApiError
-    logging.basicConfig(level=logging.INFO) 
-    load_dotenv()
-    logger = logging.getLogger()
-    SLACK_BOT_TOKEN = os.environ["OAUTH"] 
-    SLACK_APP_TOKEN = os.environ["socketoken"]
+import os
+from dotenv import load_dotenv
+import logging
+import re
+from google.cloud import language_v1
+import slack
+from slack_sdk.errors import SlackApiError
+logging.basicConfig(level=logging.INFO) 
+load_dotenv()
+logger = logging.getLogger()
+
+
+SLACK_BOT_TOKEN = os.environ["OAUTH"] 
+SLACK_APP_TOKEN = os.environ["socketoken"]
+
+
+def get_users(): 
 
     client = slack.WebClient(token=SLACK_BOT_TOKEN)
-
     users_store = {}
-
-
     # Put users into the dict
     def save_users(users_array):
         for user in users_array:
@@ -40,23 +42,9 @@ def get_users():
     return dict
 
 def get_channels():
-    import os
-    import logging
-    from dotenv import load_dotenv
-    import slack
-    from slack_sdk.errors import SlackApiError
-    logging.basicConfig(level=logging.INFO) 
-    load_dotenv()
-    logger = logging.getLogger()
-
-    SLACK_BOT_TOKEN = os.environ["OAUTH"] 
-    SLACK_APP_TOKEN = os.environ["socketoken"]
-
-
 
     client = slack.WebClient(token=SLACK_BOT_TOKEN)
     conversations_store = {}
-
     def fetch_conversations():
         try:
             # Call the conversations.list method using the WebClient
@@ -82,27 +70,17 @@ def get_channels():
     dict = {}
     list=[]
     for x in conversations_store:
-        list.append(conversations_store[x]["id"]) 
+        list.append(conversations_store[x]["id"])
+
     return list 
 
 channel_list = get_channels()
 employee_dict = get_users()
 
 def get_conversation(channel_list, employee_dict):
-    import os
-    import logging
-    from dotenv import load_dotenv
-    import slack
-    import re
-
+    
     #channel_list = ['C03QQDD1LBY', 'C03QX00A343', 'C03RLPRAERW', 'C03RZ5YRA15']
     #employee_dict = {'Ayumu': 'U03R9LQUVT3', 'Emma': 'U03SCBETEN9', 'Bob': 'U03T5137UQ0', 'Kate': 'U03T52DQQ64'}
-    logging.basicConfig(level=logging.INFO) 
-    load_dotenv()
-
-    SLACK_BOT_TOKEN = os.environ["OAUTH"] 
-    SLACK_APP_TOKEN = os.environ["socketoken"]
-
     client = slack.WebClient(token=SLACK_BOT_TOKEN)
     # Store conversation history
     conversation_history = []
@@ -120,17 +98,12 @@ def get_conversation(channel_list, employee_dict):
 
     return dict
 
+
 input = get_conversation(channel_list, employee_dict)
 
-# Imports the Google Cloud client library
-def text_score(input):
-    from google.cloud import language_v1
-    #import os
-    from dotenv import load_dotenv
-    load_dotenv()
-    #GOOGLE_APPLICATION_CREDENTIALS = os.environ["GOOGLE_APPLICATION_CREDENTIALS"] 
 
-    # Instantiates a client
+def text_score(input):
+
     client = language_v1.LanguageServiceClient()
     new_dict = {}
     for employee, list in input.items():
